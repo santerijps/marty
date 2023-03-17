@@ -12,10 +12,18 @@ import MARKED_CONFIG  from '../configuration/marked.config';
 let srcDirPath: string;
 let dstDirPath: string;
 
-export function initialize(_srcDirPath: string, _dstDirPath: string, componentsDir: string) {
+export async function initialize(_srcDirPath: string, _dstDirPath: string, componentsDir: string) {
+
   srcDirPath = _srcDirPath;
   dstDirPath = _dstDirPath;
   ART_CONFIG.root = $path.join(srcDirPath, componentsDir);
+
+  const functionsFilePath = $path.join(srcDirPath, '+functions.ts');
+  if ($util.path.exists(functionsFilePath)) {
+    const functions = await import(functionsFilePath);
+    ART_CONFIG.imports = { ...ART_CONFIG.imports, ...functions };
+  }
+
 }
 
 export function convertDir(dirPath: string, relativePath: string = './', parentData: object = {}, parentLayout: string = '{{ $child }}') {
@@ -30,6 +38,7 @@ export function convertDir(dirPath: string, relativePath: string = './', parentD
   const dirFiles = $util.path.readDir(dirPath);
   const configFilePath = dirFiles.find($util.path.isConfigFile);
   const layoutFilePath = dirFiles.find($util.path.isLayoutFile);
+  const functionsFilePath = dirFiles.find($util.path.isFunctionsFile);
 
   if (configFilePath !== undefined) {
     data = { ...data, ...$yaml.parse($util.path.readFile(configFilePath)) };
@@ -39,6 +48,12 @@ export function convertDir(dirPath: string, relativePath: string = './', parentD
   if (layoutFilePath !== undefined) {
     layout = wrapWithLayout($util.path.readFile(layoutFilePath), layout);
     dirFiles.splice(dirFiles.indexOf(layoutFilePath), 1);
+  }
+
+  // This is done exclusively to remove it from the dirFiles array.
+  // This way no log message will be shown to the user.
+  if (functionsFilePath !== undefined) {
+    dirFiles.splice(dirFiles.indexOf(functionsFilePath), 1);
   }
 
   for (const filePath of dirFiles) {
@@ -52,7 +67,6 @@ export function convertDir(dirPath: string, relativePath: string = './', parentD
 
     if (stats.isFile()) {
       if ($util.path.isMarkdownFile(filePath)) {
-        // ART_CONFIG.root = dirPath;
         const outputFilePath = $path.join(outputDirPath, $util.path.replaceExt($path.basename(filePath), '.html'));
         const content = buildHtmlDocument(filePath, layout, data);
         $util.path.writeFile(outputFilePath, content);
