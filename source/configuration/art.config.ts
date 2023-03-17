@@ -1,20 +1,5 @@
 import $art from 'art-template';
 
-namespace imports {
-
-  export function lower(x: string) {
-    return x.toLowerCase();
-  }
-
-  export function upper(x: string) {
-    return x.toUpperCase();
-  }
-
-  // TODO: Add more import functions!
-  // TODO: Make it possible for the user to define their own functions!
-
-}
-
 export default {
   filename: null,
   rules: $art.defaults.rules,
@@ -34,8 +19,5 @@ export default {
   root: '/',
   extname: '.html',
   ignore: [],
-  imports: {
-    ...$art.defaults.imports,
-    ...imports,
-  },
+  imports: $art.defaults.imports,
 };
