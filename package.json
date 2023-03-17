@@ -4,10 +4,8 @@
   "description": "Static site generation with Marked, art-template and yargs",
   "main": "source/main.ts",
   "scripts": {
+    "build": "tsc",
     "dev": "nodemon"
-  },
-  "bin": {
-    "marty": "./bin/marty"
   },
   "keywords": [],
   "author": "Santeri Sydänmetsä",
