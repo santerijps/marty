@@ -32,7 +32,7 @@ export default {
   loader: $art.defaults.loader,
   caches: $art.defaults.caches,
   root: '/',
-  extname: '.md',
+  extname: '.html',
   ignore: [],
   imports: {
     ...$art.defaults.imports,

@@ -9,10 +9,13 @@ import $yaml      from 'yaml';
 import ART_CONFIG     from '../configuration/art.config';
 import MARKED_CONFIG  from '../configuration/marked.config';
 
+let srcDirPath: string;
 let dstDirPath: string;
 
-export function setDstDirPath(path: string) {
-  dstDirPath = path;
+export function initialize(_srcDirPath: string, _dstDirPath: string, componentsDir: string) {
+  srcDirPath = _srcDirPath;
+  dstDirPath = _dstDirPath;
+  ART_CONFIG.root = $path.join(srcDirPath, componentsDir);
 }
 
 export function convertDir(dirPath: string, relativePath: string = './', parentData: object = {}, parentLayout: string = '{{ $child }}') {
@@ -40,7 +43,7 @@ export function convertDir(dirPath: string, relativePath: string = './', parentD
 
   for (const filePath of dirFiles) {
 
-    if ($path.basename(filePath).startsWith('.')) {
+    if ($path.basename(filePath).startsWith('.') || $path.basename(filePath).startsWith('+')) {
       $log.warn('IGNORE:', filePath);
       continue;
     }
@@ -49,6 +52,7 @@ export function convertDir(dirPath: string, relativePath: string = './', parentD
 
     if (stats.isFile()) {
       if ($util.path.isMarkdownFile(filePath)) {
+        // ART_CONFIG.root = dirPath;
         const outputFilePath = $path.join(outputDirPath, $util.path.replaceExt($path.basename(filePath), '.html'));
         const content = buildHtmlDocument(filePath, layout, data);
         $util.path.writeFile(outputFilePath, content);
@@ -71,7 +75,12 @@ export function convertDir(dirPath: string, relativePath: string = './', parentD
 export function buildHtmlDocument(path: string, layout: string, data: object): string {
   const { meta, body } = $util.path.readMarkdownDocument(path);
   data = { ...data, ...meta };
-  const child = $marked.marked(body, MARKED_CONFIG);
+  const child = (
+    $marked.marked(body, MARKED_CONFIG)
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, '\'')
+      .replace(/&amp;/g, '&')
+  );
   const html = wrapWithLayout(child, layout);
   return $art.render(replaceLocalPageLinks(html), data, ART_CONFIG);
 }
@@ -89,5 +98,5 @@ export function replaceLocalPageLinks(s: string) {
 
 export default {
   convertDir,
-  setDstDirPath,
+  initialize,
 };

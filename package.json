@@ -5,7 +5,8 @@
   "main": "source/main.ts",
   "scripts": {
     "build": "tsc",
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "test": "ts-node source/main example -o example-out"
   },
   "keywords": [],
   "author": "Santeri Sydänmetsä",

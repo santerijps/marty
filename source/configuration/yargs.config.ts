@@ -10,9 +10,13 @@ export default ($yargs($process.argv.slice(2))
   })
   .option('o', {
     alias: 'out',
-    type: 'string',
     default: './out',
     description: 'The output path of the compiled directory',
+  })
+  .option('c', {
+      alias: 'component-dir',
+      default: '+components',
+      description: 'Where to look for art-template component/partial files.',
   })
   .parseSync()
 );

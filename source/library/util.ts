@@ -83,6 +83,10 @@ export namespace yargs {
     return YARGS.o;
   }
 
+  export function getComponentDir(): string {
+    return YARGS.c;
+  }
+
   export function noPositionalArgsProvided(): boolean {
     return YARGS._.length === 0;
   }
