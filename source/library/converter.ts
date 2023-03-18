@@ -11,9 +11,11 @@ import MARKED_CONFIG  from '../configuration/marked.config';
 
 let srcDirPath: string;
 let dstDirPath: string;
+let functionsFilePaths: string[];
 
 export async function initialize(_srcDirPath: string, _dstDirPath: string, componentsDir: string) {
 
+  functionsFilePaths = [];
   srcDirPath = _srcDirPath;
   dstDirPath = _dstDirPath;
   ART_CONFIG.root = $path.join(srcDirPath, componentsDir);
@@ -24,11 +26,13 @@ export async function initialize(_srcDirPath: string, _dstDirPath: string, compo
   if ($util.path.exists(functionsFileTsPath)) {
     const functions = await import(functionsFileTsPath);
     ART_CONFIG.imports = { ...ART_CONFIG.imports, ...functions };
+    functionsFilePaths.push(functionsFileTsPath);
   }
 
   if ($util.path.exists(functionsFileJsPath)) {
     const functions = await import(functionsFileJsPath);
     ART_CONFIG.imports = { ...ART_CONFIG.imports, ...functions };
+    functionsFilePaths.push(functionsFileJsPath);
   }
 
 }
@@ -45,7 +49,6 @@ export function convertDir(dirPath: string, relativePath: string = './', parentD
   const dirFiles = $util.path.readDir(dirPath);
   const configFilePath = dirFiles.find($util.path.isConfigFile);
   const layoutFilePath = dirFiles.find($util.path.isLayoutFile);
-  const functionsFilePath = dirFiles.find($util.path.isFunctionsFile);
 
   if (configFilePath !== undefined) {
     data = { ...data, ...$yaml.parse($util.path.readFile(configFilePath)) };
@@ -57,10 +60,10 @@ export function convertDir(dirPath: string, relativePath: string = './', parentD
     dirFiles.splice(dirFiles.indexOf(layoutFilePath), 1);
   }
 
-  // This is done exclusively to remove it from the dirFiles array.
-  // This way no log message will be shown to the user.
-  if (functionsFilePath !== undefined) {
-    dirFiles.splice(dirFiles.indexOf(functionsFilePath), 1);
+  for (const functionsFilePath of functionsFilePaths) {
+    if (dirFiles.includes(functionsFilePath)) {
+      dirFiles.splice(dirFiles.indexOf(functionsFilePath), 1);
+    }
   }
 
   for (const filePath of dirFiles) {

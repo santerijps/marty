@@ -19,10 +19,6 @@ export namespace path {
     return path.match(/\+config\.ya?ml$/) !== null;
   }
 
-  export function isFunctionsFile(path: string): boolean {
-    return path.match(/\+functions\.ts$/) !== null;
-  }
-
   export function isLayoutFile(path: string): boolean {
     return path.match(/\+layout\.html?$/) !== null;
   }
