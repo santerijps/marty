@@ -18,9 +18,16 @@ export async function initialize(_srcDirPath: string, _dstDirPath: string, compo
   dstDirPath = _dstDirPath;
   ART_CONFIG.root = $path.join(srcDirPath, componentsDir);
 
-  const functionsFilePath = $path.join(srcDirPath, '+functions.ts');
-  if ($util.path.exists(functionsFilePath)) {
-    const functions = await import(functionsFilePath);
+  const functionsFileTsPath = $path.join(srcDirPath, '+functions.ts');
+  const functionsFileJsPath = $path.join(srcDirPath, '+functions.js');
+
+  if ($util.path.exists(functionsFileTsPath)) {
+    const functions = await import(functionsFileTsPath);
+    ART_CONFIG.imports = { ...ART_CONFIG.imports, ...functions };
+  }
+
+  if ($util.path.exists(functionsFileJsPath)) {
+    const functions = await import(functionsFileJsPath);
     ART_CONFIG.imports = { ...ART_CONFIG.imports, ...functions };
   }
 
