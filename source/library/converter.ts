@@ -11,28 +11,22 @@ import MARKED_CONFIG  from '../configuration/marked.config';
 
 let srcDirPath: string;
 let dstDirPath: string;
-let functionsFilePaths: string[];
+let functionsFilePath: string;
 
 export async function initialize(_srcDirPath: string, _dstDirPath: string, componentsDir: string) {
 
-  functionsFilePaths = [];
+  functionsFilePath = '';
   srcDirPath = _srcDirPath;
   dstDirPath = _dstDirPath;
   ART_CONFIG.root = $path.join(srcDirPath, componentsDir);
 
-  const functionsFileTsPath = $path.join(srcDirPath, '+functions.ts');
   const functionsFileJsPath = $path.join(srcDirPath, '+functions.js');
 
-  if ($util.path.exists(functionsFileTsPath)) {
-    const functions = await import(functionsFileTsPath);
-    ART_CONFIG.imports = { ...ART_CONFIG.imports, ...functions };
-    functionsFilePaths.push(functionsFileTsPath);
-  }
-
   if ($util.path.exists(functionsFileJsPath)) {
-    const functions = await import(functionsFileJsPath);
-    ART_CONFIG.imports = { ...ART_CONFIG.imports, ...functions };
-    functionsFilePaths.push(functionsFileJsPath);
+    // TODO: Fix & implement custom +functions.js files
+    // const functions = await import(functionsFileJsPath);
+    // ART_CONFIG.imports = { ...ART_CONFIG.imports, ...functions };
+    functionsFilePath = functionsFileJsPath;
   }
 
 }
@@ -60,10 +54,8 @@ export function convertDir(dirPath: string, relativePath: string = './', parentD
     dirFiles.splice(dirFiles.indexOf(layoutFilePath), 1);
   }
 
-  for (const functionsFilePath of functionsFilePaths) {
-    if (dirFiles.includes(functionsFilePath)) {
-      dirFiles.splice(dirFiles.indexOf(functionsFilePath), 1);
-    }
+  if (dirFiles.includes(functionsFilePath)) {
+    dirFiles.splice(dirFiles.indexOf(functionsFilePath), 1);
   }
 
   for (const filePath of dirFiles) {
