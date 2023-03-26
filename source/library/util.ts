@@ -115,6 +115,7 @@ export namespace art {
     export function title(s: string) {
       return s
         .toLowerCase()
+        .replace(/_/g, ' ')
         .replace(/(?:^|\s|-)\w/g, m => m.toUpperCase());
     }
 
