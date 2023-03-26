@@ -24,7 +24,7 @@ export namespace path {
   }
 
   export function isMarkdownFile(path: string): boolean {
-    return path.match(/\w[\w\.]+\.md$/) !== null;
+    return path.match(/\w[\w\.]*\.md$/) !== null;
   }
 
   export function readFile(path: string): string {
@@ -56,6 +56,15 @@ export namespace path {
       result.body = fileContent.slice(m[0].length);
     }
     return result;
+  }
+
+  export function readMarkdownMeta(path: string): object {
+    const fileContent = readFile(path);
+    const m = fileContent.match(/^---(.*?)---/ms);
+    if (m !== null && m.index === 0) {
+      return $yaml.parse(m[1]);
+    }
+    return {};
   }
 
   export function toAbsolute(path: string): string {
@@ -93,7 +102,26 @@ export namespace yargs {
 
 }
 
+export namespace art {
+
+    export function lower(s: string) {
+      return s.toLowerCase();
+    }
+
+    export function upper(s: string) {
+      return s.toUpperCase();
+    }
+
+    export function title(s: string) {
+      return s
+        .toLowerCase()
+        .replace(/(?:^|\s|-)\w/g, m => m.toUpperCase());
+    }
+
+}
+
 export default {
+  art,
   path,
   yargs,
 };

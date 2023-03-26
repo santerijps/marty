@@ -19,6 +19,8 @@ export async function initialize(_srcDirPath: string, _dstDirPath: string, compo
   srcDirPath = _srcDirPath;
   dstDirPath = _dstDirPath;
   ART_CONFIG.root = $path.join(srcDirPath, componentsDir);
+  ART_CONFIG.srcDirPath = srcDirPath;
+  ART_CONFIG.dstDirPath = dstDirPath;
 
   const functionsFileJsPath = $path.join(srcDirPath, '+functions.js');
 
