@@ -29,6 +29,8 @@ const config = {
 
 /**
  * Built-in functions for art-template engine.
+ * The functions defined below depend on the art-template configuration.
+ * The other built-in functions (that don't depend in the config) can be found in util.ts.
  */
 function $(): object {
   return {
@@ -40,7 +42,7 @@ function $(): object {
           name: fileName.replace(/\.md$/, ''),
           ext: $path.extname(fileName),
           title: $util.art.title(fileName.replace(/\.md$/, '')),
-          href: './' + $path.join(path, $path.extname(fileName) === '.md' ? $util.path.replaceExt(fileName, ".html") : fileName),
+          href: $path.join('/', path, $path.extname(fileName) === '.md' ? $util.path.replaceExt(fileName, '.html') : fileName),
           dirPath: path.split('/').filter(x => x.length > 0),
           dirName: $path.basename(path),
         }));
@@ -50,10 +52,11 @@ function $(): object {
       return $fs
         .readdirSync($path.join(config.srcDirPath, path),{ encoding: 'utf8' })
         .filter($util.path.isMarkdownFile)
+        .filter(x => !x.match(/^index\.md$/))
         .map(fileName => ({
           name: fileName.replace(/\.md$/, ''),
           title: $util.art.title(fileName.replace(/\.md$/, '')),
-          href: './' + $path.join(path, $util.path.replaceExt(fileName, ".html")),
+          href: $path.join('/', path, $util.path.replaceExt(fileName, '.html')),
           dirPath: path.split('/').filter(x => x.length > 0),
           dirName: $path.basename(path),
           meta: $util.path.readMarkdownMeta($path.join(config.srcDirPath, path, fileName)),

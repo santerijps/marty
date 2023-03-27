@@ -98,7 +98,20 @@ export function convertDir(dirPath: string, relativePath: string = './', parentD
 
 export function buildHtmlDocument(path: string, layout: string, data: object): string {
   const { meta, body } = $util.path.readMarkdownDocument(path);
-  data = { ...data, ...meta };
+  const fileName = $path.basename(path);
+  const relativePath = $path.dirname(path.replace(srcDirPath, ''));
+  data = {
+    ...data,
+    ...meta,
+    $page: {
+      name: fileName.replace(/\.md$/, ''),
+      title: $util.art.title(fileName.replace(/\.md$/, '')),
+      href: './' + $path.join(relativePath, $util.path.replaceExt(fileName, '.html')),
+      dirPath: relativePath.split('/').filter(x => x.length > 0),
+      dirName: $path.basename(relativePath),
+      meta,
+    },
+  };
   const child = (
     $marked.marked(body, MARKED_CONFIG)
       .replace(/&quot;/g, '"')

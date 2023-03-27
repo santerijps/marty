@@ -32,7 +32,7 @@ Your project structure may look like this:
 ```txt
 my-project/
   +config.yaml
-  +functions.ts
+  +functions.js (NOT IMPLEMENTED)
   +layout.html
   +components/
     footer.html
@@ -80,3 +80,15 @@ See [the art-template docs](https://aui.github.io/art-template/docs/syntax.html#
 It's possible to define a components directory (`+components` in the root directory by default) that can be referenced by templates. This makes it possible to define re-usable html files that can be provided with specified data.
 
 See [the art-template docs](https://aui.github.io/art-template/docs/syntax.html#Sub-template) for more information.
+
+## Built-in template variables and functions
+
+The naming scheme of built-in variables follows the rule '$name', and for functions the rule is '$.name'.
+
+#### `$.page`
+
+Contains meta data and other information of the current page.
+
+#### `$child`
+
+Used in `+layout.html` files as a placeholder for the page body.
