@@ -67,9 +67,9 @@ The `+layout.html` file defines the layout of the current and child templates. J
 
 **TODO:** Reset the layout structure (chain of inheritence) by some config variable.
 
-#### `+functions.ts`
+#### (NOT IMPLEMENTED) `+functions.js`
 
-The `+functions.ts` file is used for user-defined functions that can be used in templates. The functions can do anything that the Node runtime supports. This file should be located in the root directory of the project.
+The `+functions.js` file is used for user-defined functions that can be used in templates. The functions can do anything that the Node runtime supports. This file should be located in the root directory of the project.
 
 See [the art-template docs](https://aui.github.io/art-template/docs/syntax.html#Filters) for use of template functions (referred to as "filters").
 
