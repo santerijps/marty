@@ -45,10 +45,16 @@ export function convertDir(dirPath: string, relativePath: string = './', parentD
   const dirFiles = $util.path.readDir(dirPath);
   const configFilePath = dirFiles.find($util.path.isConfigFile);
   const layoutFilePath = dirFiles.find($util.path.isLayoutFile);
+  const layoutResetFilePath = dirFiles.find($util.path.isLayoutResetFile);
 
   if (configFilePath !== undefined) {
     data = { ...data, ...$yaml.parse($util.path.readFile(configFilePath)) };
     dirFiles.splice(dirFiles.indexOf(configFilePath), 1);
+  }
+
+  if (layoutResetFilePath !== undefined) {
+    layout = $util.path.readFile(layoutResetFilePath);
+    dirFiles.splice(dirFiles.indexOf(layoutResetFilePath), 1);
   }
 
   if (layoutFilePath !== undefined) {

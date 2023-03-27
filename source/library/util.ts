@@ -23,6 +23,10 @@ export namespace path {
     return path.match(/\+layout\.html?$/) !== null;
   }
 
+  export function isLayoutResetFile(path: string): boolean {
+    return path.match(/\+layout\.reset\.html?$/) !== null;
+  }
+
   export function isMarkdownFile(path: string): boolean {
     return path.match(/\w[\w\.]*\.md$/) !== null;
   }
