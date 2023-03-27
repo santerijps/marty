@@ -65,9 +65,11 @@ Config files are good for defining some generic data that may apply to the docum
 
 The `+layout.html` file defines the layout of the current and child templates. Just like regular Markdown templates, the layout file supports `art-template` syntax. Layout files can inherit from parent layout files.
 
-**TODO:** Reset the layout structure (chain of inheritence) by some config variable.
+#### `+layout.reset.html`
 
-#### (NOT IMPLEMENTED) `+functions.js`
+The `+layout.reset.html` resets the layout structure for a directory, i.e. makes it so that no layout will be inherited from any `+layout.html` files up in project hierarchy.
+
+#### `+functions.js` (NOT IMPLEMENTED)
 
 The `+functions.js` file is used for user-defined functions that can be used in templates. The functions can do anything that the Node runtime supports. This file should be located in the root directory of the project.
 
