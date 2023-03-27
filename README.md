@@ -89,6 +89,17 @@ The naming scheme of built-in variables follows the rule '$name', and for functi
 
 Contains meta data and other information of the current page.
 
+```ts
+type Page = {
+  name: string;
+  title: string;
+  href: string;
+  dirPath: string[];
+  dirName: string;
+  meta: object;
+}
+```
+
 #### `$child`
 
 Used in `+layout.html` files as a placeholder for the page body.
