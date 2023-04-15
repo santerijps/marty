@@ -23,6 +23,8 @@ Options:
                                                               [default: "./out"]
   -c, --component-dir  Where to look for art-template component/partial files.
                                                         [default: "+components"]
+  -v, --verbose        Print performed operations to stodut.
+                                                      [boolean] [default: false]
 ```
 
 ## Project files

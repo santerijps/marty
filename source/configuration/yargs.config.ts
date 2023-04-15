@@ -18,5 +18,11 @@ export default ($yargs($process.argv.slice(2))
       default: '+components',
       description: 'Where to look for art-template component/partial files.',
   })
+  .option('v', {
+    alias: 'verbose',
+    default: false,
+    type: 'boolean',
+    description: 'Print performed operations to stodut.',
+})
   .parseSync()
 );

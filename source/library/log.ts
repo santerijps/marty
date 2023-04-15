@@ -1,5 +1,6 @@
-import $chalk   from 'chalk';
-import $process from 'process';
+import $chalk         from 'chalk';
+import $process       from 'process';
+import YARGS_CONFIG   from '../configuration/yargs.config';
 
 export function error(...args: any) {
   console.error($chalk.red(...args));
@@ -11,15 +12,15 @@ export function fatal(...args: any) {
 }
 
 export function info(...args: any) {
-  console.log($chalk.blue(...args));
+  if (YARGS_CONFIG.v) console.log($chalk.blue(...args));
 }
 
 export function warn(...args: any) {
-  console.log($chalk.yellow(...args));
+  if (YARGS_CONFIG.v) console.log($chalk.yellow(...args));
 }
 
 export function rejoice(...args: any) {
-  console.log($chalk.green(...args));
+  if (YARGS_CONFIG.v) console.log($chalk.green(...args));
 }
 
 export default {
