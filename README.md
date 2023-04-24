@@ -54,9 +54,9 @@ my-project/
 
 As a general rule of thumb, files and foldes that begin with a plus (`+`) or a dot (`.`) are "ignored", meaning that they are not processed or copied over into the output directory. This is why the built-in file names begin with plusses.
 
-#### `config.yaml`
+#### `+config.yaml`
 
-The `config.yaml` file defines the data that will be available in the templates. Config files can be stacked on different levels, causing the data to be overwritten i ncase of duplicate keys. The config file data can be overwritten in two ways:
+The `+config.yaml` file defines the data that will be available in the templates. Config files can be stacked on different levels, causing the data to be overwritten i ncase of duplicate keys. The config file data can be overwritten in two ways:
 
 1. The Markdown template itself has some meta data written to it
 2. By another config file. The config file at the top of the file hierarchy has the least effect, while every other config file will overwrite it. (**Note:** only duplicate keys are overwritten, other keys are inherited!)
